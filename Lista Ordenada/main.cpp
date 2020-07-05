@@ -7,31 +7,35 @@ struct persona{string nombre;
 
 int main(int argc, char** argv) {
 	int pos=1;
-	lista<persona> d;
+	persona per;
+	per.codigo=9999;
+	per.nombre="final";
+	lista<persona> d = lista<persona>(per);
 	
-	//Metodo lista_vacia antes de llenar lista
+	//Método lista_vacia antes de llenar lista
+	
 	if(d.lista_vacia()){
 		cout<<"La lista esta vacia"<<endl;
 	}else{
 		cout<<"La lista no esta vacia"<<endl;
 	}
 	
-	persona per;
+	//Método insertar
 	per.codigo=1000;
 	per.nombre="Juan";
-	d.insertar(per,1);
+	d.insertar(per,per.codigo);
 	per.codigo=1100;
 	per.nombre="Maria";
-	d.insertar(per,3);
-	per.codigo=1200;
+	d.insertar(per,per.codigo);
+	per.codigo=1400;
 	per.nombre="Ana";
-	d.insertar(per,2);
+	d.insertar(per,per.codigo);
 	per.codigo=900;
 	per.nombre="Karen";
-	d.insertar(per,8);
+	d.insertar(per,per.codigo);
 	per.codigo=1300;
 	per.nombre="Christian";
-	d.insertar(per,4);
+	d.insertar(per,per.codigo);
 	
 	//Muestra la lista
 	while(pos<=d.get_tam()){
@@ -40,7 +44,7 @@ int main(int argc, char** argv) {
 		pos++;
 	}
 	
-	//Metodo lista_vacia después de llenar lista
+	//Método lista_vacia después de llenar lista
 	if(d.lista_vacia()){
 		cout<<"La lista esta vacia"<<endl;
 	}else{
@@ -48,7 +52,7 @@ int main(int argc, char** argv) {
 	}
 	
 	//Borrar nodo
-	if(d.borrar(2)){
+	if(d.borrar(1000)){
 		cout<<"borrado"<<endl;
 	}else{
 		cout<<"No encontrado"<<endl;
@@ -65,7 +69,7 @@ int main(int argc, char** argv) {
 	}
 	
 	//Método pertenece
-	if(d.pertenece(8)){
+	if(d.pertenece(900)){
 		cout<<"Si pertenece"<<endl;
 	}else{
 		cout<<"No pertenece"<<endl;
@@ -74,7 +78,7 @@ int main(int argc, char** argv) {
 	//Método cambiar
 	per.codigo = 1800;
 	per.nombre = "Esteban";
-	d.cambiar(3,per);
+	d.cambiar(1400,per);
 	
 	pos = 1;
 	//Muestra la lista
@@ -85,8 +89,12 @@ int main(int argc, char** argv) {
 	}
 	
 	//Método buscar
-	d.buscar(2,&per);
-	cout<<per.codigo<<" "<<per.nombre<<endl;
+	
+	if(d.buscar(900,&per)){
+		cout<<"encontrado : "<<per.codigo<<" "<<per.nombre<<endl;
+	}else{
+		cout<<"no encontrado"<<endl;
+	}
 	
 	return 0;
 }

@@ -8,13 +8,19 @@ template <class T>
 struct nodo {
 			int clave;
 			T Dato;
-            nodo<T> * sig;};
+             nodo<T> * sig;};
+
 
 template <class T>
-class lista{nodo <T> *cab;
+class lista{nodo <T> *cab, *z;
 			int tam;
 			
-	public: lista(){cab=NULL; tam=0;}
+	public: lista(T Infomax){cab=new nodo<T>; z=new nodo <T>;
+					cab->sig=z;
+					z->clave=9999;
+					z->Dato=Infomax;
+					z->sig=z;
+					tam=0;}
 			bool lista_vacia();
 			void insertar(T info, int clave);
 			bool borrar(int clave);
@@ -25,11 +31,14 @@ class lista{nodo <T> *cab;
 			int get_tam(){
 				return tam;
 			}
+			
+			
+			
 };
 
 template <class T>
 bool lista<T>::lista_vacia()
-{if(cab==NULL)
+{if(cab->sig==z)
     return true;
  else
 	return false;
@@ -37,69 +46,33 @@ bool lista<T>::lista_vacia()
 
 template <class T>
 void lista <T>::insertar(T info, int clave){	
-	int p;
-	if(lista_vacia()){
-		nodo<T> *nuevo;
-		nuevo = new nodo <T>;
-		nuevo->clave=clave;
-		nuevo->Dato=info;
-		nuevo->sig=NULL;
-		cab = nuevo;
-		tam++;
-	}else{
-		nodo <T> *nuevo, *Aux,*temp;
- 		nuevo = new nodo <T>;
-		nuevo->clave=clave;
-		nuevo->Dato=info;
-		Aux=cab;
-		temp=cab;
-		p=1;
-		while((clave>Aux->clave)&&(p<tam)){
-			Aux=Aux->sig;
-			p++;
-		}
-		if((clave>Aux->clave)&&(Aux->sig==NULL)){
-			Aux->sig = nuevo;
-			nuevo->sig=NULL;
-		}else{
-			if((clave<Aux->clave)&&(p==1)){
-				cab=nuevo;
-				nuevo->sig=Aux;
-			}else{
-				for(int i=1;i<p-1;i++){
-					temp=temp->sig;
-				}
-				temp->sig=nuevo;
-				nuevo->sig=Aux;	
-			}
-		}
-		tam++;
+	nodo<T> *ant,*pos,*nuevo;
+	nuevo=new nodo<T>;
+	nuevo->clave=clave;
+	nuevo->Dato=info;
+	ant=cab;
+	pos=cab->sig;
+	while(nuevo->clave>pos->clave){
+		ant=pos;
+		pos=ant->sig;
 	}
+	ant->sig=nuevo;
+	nuevo->sig=pos;
+	tam++;
 }
 
 template <class T>
 bool lista<T>::borrar(int clave){ 
-	
-	int p2=1;
-	nodo <T> *temp,*Aux=NULL;
-	temp=cab;
-	Aux=cab;
-	while((temp->clave!=clave)&&(p2<tam)){
-		temp=temp->sig;
-		p2++;
+	nodo<T> *ant,*pos;
+	ant=cab;
+	pos=cab->sig;
+	while(clave>pos->clave){
+		ant=pos;
+		pos=ant->sig;
 	}
-	
-	if(temp->clave==clave){
-		if(p2==1){
-			cab=temp->sig;
-			delete temp;
-		}else{
-			for(int i=1;i<p2-1;i++){
-				Aux=Aux->sig;
-			}
-			Aux->sig=temp->sig;
-			delete temp;
-		}
+	ant->sig=pos->sig;
+	if(pos->clave==clave){
+		delete pos;
 		tam--;
 		return true;
 	}else{
@@ -110,12 +83,10 @@ bool lista<T>::borrar(int clave){
 template <class T>
 bool lista<T>::buscar(int clave, T *infoRet)
 {   
-	int p2=1;
 	nodo <T> *temp;
-	temp=cab;
-	while((temp->clave!=clave)&&(p2<tam)){
+	temp=cab->sig;
+	while(temp->clave<clave){
 		temp=temp->sig;
-		p2++;
 	}
 	if(temp->clave==clave){
 		*infoRet = temp->Dato;
@@ -127,11 +98,9 @@ bool lista<T>::buscar(int clave, T *infoRet)
 
 template <class T>
 bool lista<T>::cambiar(int clave, T infoNueva){
- 	nodo <T> *aux=cab;
-  	int p = 1;
-	while((aux->clave!=clave)&&(p<tam)){
+ 	nodo <T> *aux=cab->sig;
+	while(aux->clave<clave){
 		aux=aux->sig;
-		p++;
 	}
 	if(aux->clave==clave){
 		aux->Dato= infoNueva;
@@ -144,6 +113,7 @@ bool lista<T>::cambiar(int clave, T infoNueva){
 template <class T>
 void lista<T>::recorrer(int pos,T *infoRet){
 	nodo <T> *aux=cab;
+	aux=aux->sig;
 	int p=1;
 	while(p<pos){
 		aux=aux->sig;
@@ -154,12 +124,10 @@ void lista<T>::recorrer(int pos,T *infoRet){
 
 template <class T>
 bool lista<T>::pertenece(int clave){
-	int p2=1;
 	nodo <T> *temp;
-	temp=cab;
-	while((temp->clave!=clave)&&(p2<tam)){
+	temp=cab->sig;
+	while(temp->clave<clave){
 		temp=temp->sig;
-		p2++;
 	}
 	if(temp->clave==clave){
 		return true;
