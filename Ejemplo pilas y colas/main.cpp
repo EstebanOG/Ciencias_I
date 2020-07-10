@@ -10,7 +10,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {cola Cola; 
 pila Pila[3]; 
- int i,j, tam, grupo=0, orden[3];
+ int i,j, tam, grupo=0, orden[3],k=0;
  char x; 
  do{
    cout<<"Escriba un multiplo de 3: ";
@@ -28,7 +28,8 @@ pila Pila[3];
        }
   }
  cout<<"mire cuidadosamente los sìmbolos y elija uno\n";
-
+if(tam==6){
+tam=9;k=6;}
 for(j=1; j<tam/3; j++)
  {cout<<"  Gr1  "<<"Gr2  "<<"Gr3  "<<endl;
   while (!Cola.ColaVacia())
@@ -53,9 +54,11 @@ for(j=1; j<tam/3; j++)
         {Cola.InsCola(Pila[orden[i]].Pop());}
     }
   }
-
+Cola.ImprimirCola();
 j=tam-tam/2;
+if(k==6)j=3;
 if(tam%2 == 0)j++;
+cout<<"j"<<j<<endl;
 for (i=1; i<=j; i++)
    {x=Cola.AtenderCola();}
 	cout<<"La figura elegida es: "<< x<<endl; 
